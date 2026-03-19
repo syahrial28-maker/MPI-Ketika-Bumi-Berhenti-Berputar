@@ -1,0 +1,1648 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Pembelajaran PAI - Qada dan Qadar</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Poppins:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; }
+    .font-orbitron { font-family: 'Orbitron', monospace; }
+    
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); } 50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 0, 255, 0.4); } }
+    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes star-burst { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.5) rotate(180deg); opacity: 0; } }
+    @keyframes confetti-fall { 0% { transform: translateY(-100%) rotate(0deg); opacity: 1; } 100% { transform: translateY(100%) rotate(720deg); opacity: 0; } }
+    @keyframes money-rain { 0% { transform: translateY(-100%) rotate(0deg); opacity: 1; } 100% { transform: translateY(100%) rotate(360deg); opacity: 0; } }
+    @keyframes neon-flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+    @keyframes slide-up { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes bounce-in { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .animate-gradient { background-size: 200% 200%; animation: gradient-shift 5s ease infinite; }
+    .animate-neon { animation: neon-flicker 2s ease-in-out infinite; }
+    .animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
+    .animate-bounce-in { animation: bounce-in 0.6s ease-out forwards; }
+    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+    
+    .bg-cyber-gradient { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
+    .bg-neon-gradient { background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5); }
+    .text-neon-cyan { color: #00fff7; text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7, 0 0 30px #00fff7; }
+    .text-neon-pink { color: #ff00ff; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+    .text-neon-gold { color: #ffd700; text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+    
+    .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .neon-border { border: 2px solid #00fff7; box-shadow: 0 0 15px rgba(0, 255, 247, 0.5), inset 0 0 15px rgba(0, 255, 247, 0.1); }
+    .neon-border-pink { border: 2px solid #ff00ff; box-shadow: 0 0 15px rgba(255, 0, 255, 0.5); }
+    .neon-border-gold { border: 2px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+    
+    .btn-cyber { background: linear-gradient(135deg, #00fff7 0%, #ff00ff 100%); transition: all 0.3s ease; }
+    .btn-cyber:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 30px rgba(0, 255, 247, 0.4); }
+    
+    .menu-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .menu-card:hover { transform: translateY(-10px) scale(1.05); }
+    
+    .particle { position: absolute; pointer-events: none; }
+    .star { font-size: 2rem; animation: star-burst 1s ease-out forwards; }
+    .confetti { width: 10px; height: 10px; animation: confetti-fall 3s ease-out forwards; }
+    .money { font-size: 1.5rem; animation: money-rain 3s ease-out forwards; }
+    
+    .drag-item { cursor: grab; transition: all 0.2s ease; }
+    .drag-item:active { cursor: grabbing; }
+    .drag-item.dragging { opacity: 0.5; transform: scale(1.1); }
+    .drop-zone { transition: all 0.3s ease; }
+    .drop-zone.drag-over { background: rgba(0, 255, 247, 0.3); border-color: #00fff7; transform: scale(1.02); }
+    
+    .leaderboard-item { transition: all 0.3s ease; }
+    .leaderboard-item:nth-child(1) { background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), transparent); }
+    .leaderboard-item:nth-child(2) { background: linear-gradient(90deg, rgba(192, 192, 192, 0.3), transparent); }
+    .leaderboard-item:nth-child(3) { background: linear-gradient(90deg, rgba(205, 127, 50, 0.3), transparent); }
+    
+    .popup-overlay { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); }
+    
+    .progress-bar { background: linear-gradient(90deg, #00fff7, #ff00ff, #ffd700); background-size: 200% 100%; animation: gradient-shift 2s linear infinite; }
+    
+    .orbit-ring { border: 2px dashed rgba(0, 255, 247, 0.3); border-radius: 50%; position: absolute; }
+    
+    .hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+    
+    input, textarea, select { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(0, 255, 247, 0.5); color: white; }
+    input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.5); }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #00fff7; box-shadow: 0 0 20px rgba(0, 255, 247, 0.3); }
+    
+    .scrollbar-cyber::-webkit-scrollbar { width: 8px; }
+    .scrollbar-cyber::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+    .scrollbar-cyber::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00fff7, #ff00ff); border-radius: 4px; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-cyber-gradient text-white overflow-x-hidden">
+  <div id="app" class="h-full overflow-auto scrollbar-cyber"><!-- Particle Container -->
+   <div id="particles" class="fixed inset-0 pointer-events-none z-50"></div><!-- Background Elements -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden">
+    <div class="orbit-ring w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"></div>
+    <div class="orbit-ring w-[500px] h-[500px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow" style="animation-duration: 30s; animation-direction: reverse;"></div>
+    <div class="absolute top-10 left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 right-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/3 right-10 w-24 h-24 bg-pink-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+   </div><!-- Page: Welcome -->
+   <div id="page-welcome" class="page min-h-full flex flex-col items-center justify-center p-4 relative">
+    <div class="absolute top-4 left-4 right-4 flex justify-between items-center gap-2">
+     <button onclick="showTeacherLogin()" class="glass-card neon-border-gold px-5 py-3 rounded-xl text-sm hover:bg-yellow-500/20 transition flex items-center gap-2 font-bold animate-pulse-glow"> <span class="text-xl">👨‍🏫</span> <span class="hidden md:inline">Panel Guru</span> </button>
+     <div class="flex gap-2">
+      <button onclick="showTeacherLogin()" title="Masuk Panel Guru" class="glass-card px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition md:hidden"> 👨‍🏫 </button>
+     </div>
+    </div>
+    <div class="text-center animate-slide-up">
+     <div class="mb-4"><span class="text-6xl animate-float inline-block">🕌</span>
+     </div>
+     <div class="glass-card neon-border rounded-2xl p-6 mb-6">
+      <p class="text-cyan-300 text-sm tracking-widest mb-2">📚 MEDIA PEMBELAJARAN INTERAKTIF PAI DAN BP 📚</p>
+      <h1 class="font-orbitron text-3xl md:text-5xl font-black text-neon-cyan mb-2">Indahnya Ketetapan Allah</h1>
+      <p class="text-xl text-purple-300">Iman Kepada Qaḍa dan Qadar Allah Swt.</p>
+     </div>
+     <div class="glass-card rounded-2xl p-8 max-w-md mx-auto animate-pulse-glow">
+      <h2 class="text-2xl font-bold mb-6 text-neon-pink">✨ Selamat Datang! ✨</h2>
+      <div class="space-y-4">
+       <div><label class="block text-left text-cyan-300 mb-2 text-sm">Nama Lengkap</label> <input type="text" id="input-name" placeholder="Masukkan nama kamu..." class="w-full px-4 py-3 rounded-xl text-lg">
+       </div>
+       <div><label class="block text-left text-cyan-300 mb-2 text-sm">Kelas</label> <select id="input-class" class="w-full px-4 py-3 rounded-xl text-lg bg-transparent border-2 border-cyan-400 text-cyan-300 font-semibold focus:border-cyan-200"> <option value="" class="bg-gray-900 text-white">-- Pilih Kelas --</option> <option value="6A" class="bg-gray-900 text-cyan-300">Kelas 6A</option> <option value="6B" class="bg-gray-900 text-cyan-300">Kelas 6B</option> <option value="6C" class="bg-gray-900 text-cyan-300">Kelas 6C</option> <option value="6D" class="bg-gray-900 text-cyan-300">Kelas 6D</option> </select>
+       </div><button onclick="startLearning()" class="btn-cyber w-full py-4 rounded-xl text-xl font-bold text-gray-900 mt-4"> 🚀 Mulai Belajar! </button>
+      </div>
+     </div>
+     <div class="mt-8 text-sm text-gray-400">
+      <p>Created by: <span class="text-cyan-400 font-semibold">Syahrial</span></p><a href="https://www.instagram.com/kampaisyahrial" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 mt-2"> <span>📷</span> @kampaisyahrial </a>
+     </div>
+    </div>
+   </div><!-- Page: Main Menu -->
+   <div id="page-menu" class="page min-h-full p-4 hidden">
+    <div class="max-w-6xl mx-auto"><!-- Header -->
+     <div class="text-center mb-8 animate-slide-up">
+      <div class="glass-card neon-border rounded-2xl p-4 inline-block mb-4">
+       <p class="text-cyan-300 text-xs tracking-widest">📚 MEDIA PEMBELAJARAN INTERAKTIF PAI DAN BP 📚</p>
+       <h1 class="font-orbitron text-2xl md:text-3xl font-black text-neon-cyan">Indahnya Ketetapan Allah</h1>
+      </div>
+      <p class="text-lg text-purple-300">Halo, <span id="display-name" class="text-neon-pink font-bold"></span>! 👋</p>
+      <p class="text-sm text-gray-400">Kelas: <span id="display-class" class="text-cyan-400"></span></p>
+     </div><!-- Learning Path -->
+     <div class="flex justify-center gap-4 mb-8 flex-wrap">
+      <div class="glass-card rounded-full px-6 py-2 flex items-center gap-2"><span class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-sm font-bold">1</span> <span class="text-cyan-300">Memahami</span>
+      </div><span class="text-gray-500 self-center">→</span>
+      <div class="glass-card rounded-full px-6 py-2 flex items-center gap-2"><span class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-sm font-bold">2</span> <span class="text-purple-300">Mengaplikasi</span>
+      </div><span class="text-gray-500 self-center">→</span>
+      <div class="glass-card rounded-full px-6 py-2 flex items-center gap-2"><span class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-sm font-bold">3</span> <span class="text-pink-300">Merefleksi</span>
+      </div>
+     </div><!-- Menu Grid -->
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"><!-- Materi 1 -->
+      <div onclick="showMateri(1)" class="menu-card glass-card neon-border rounded-2xl p-6 cursor-pointer text-center">
+       <div class="text-5xl mb-4 animate-float">
+        📖
+       </div>
+       <h3 class="font-orbitron text-lg font-bold text-neon-cyan mb-2">Makna Iman</h3>
+       <p class="text-sm text-gray-300">Qaḍa dan Qadar</p>
+       <div class="mt-4 text-xs text-cyan-400">
+        MEMAHAMI
+       </div>
+      </div><!-- Materi 2 -->
+      <div onclick="showMateri(2)" class="menu-card glass-card neon-border-pink rounded-2xl p-6 cursor-pointer text-center">
+       <div class="text-5xl mb-4 animate-float" style="animation-delay: 0.5s;">
+        🌟
+       </div>
+       <h3 class="font-orbitron text-lg font-bold text-neon-pink mb-2">Jenis Takdir</h3>
+       <p class="text-sm text-gray-300">&amp; Contohnya</p>
+       <div class="mt-4 text-xs text-pink-400">
+        MEMAHAMI
+       </div>
+      </div><!-- Materi 3 -->
+      <div onclick="showMateri(3)" class="menu-card glass-card neon-border rounded-2xl p-6 cursor-pointer text-center">
+       <div class="text-5xl mb-4 animate-float" style="animation-delay: 1s;">
+        🤲
+       </div>
+       <h3 class="font-orbitron text-lg font-bold text-neon-cyan mb-2">Sikap Terhadap</h3>
+       <p class="text-sm text-gray-300">Takdir Allah</p>
+       <div class="mt-4 text-xs text-cyan-400">
+        MEMAHAMI
+       </div>
+      </div><!-- Materi 4 -->
+      <div onclick="showMateri(4)" class="menu-card glass-card neon-border-gold rounded-2xl p-6 cursor-pointer text-center">
+       <div class="text-5xl mb-4 animate-float" style="animation-delay: 1.5s;">
+        💎
+       </div>
+       <h3 class="font-orbitron text-lg font-bold text-neon-gold mb-2">Hikmah Beriman</h3>
+       <p class="text-sm text-gray-300">Qaḍa dan Qadar</p>
+       <div class="mt-4 text-xs text-yellow-400">
+        MEMAHAMI
+       </div>
+      </div>
+     </div><!-- Activity Menu -->
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div onclick="showDragDrop()" class="menu-card glass-card rounded-2xl p-6 cursor-pointer text-center bg-gradient-to-br from-green-500/20 to-cyan-500/20 border border-green-500/50">
+       <div class="text-5xl mb-4">
+        🎯
+       </div>
+       <h3 class="font-bold text-lg text-green-400">Latihan</h3>
+       <p class="text-sm text-gray-300">Drag &amp; Drop</p>
+       <div class="mt-4 text-xs text-green-400">
+        MENGAPLIKASI
+       </div>
+      </div>
+      <div onclick="showQuiz()" class="menu-card glass-card rounded-2xl p-6 cursor-pointer text-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/50">
+       <div class="text-5xl mb-4">
+        🏆
+       </div>
+       <h3 class="font-bold text-lg text-purple-400">Kuis</h3>
+       <p class="text-sm text-gray-300">3 Level</p>
+       <div class="mt-4 text-xs text-purple-400">
+        MENGAPLIKASI
+       </div>
+      </div>
+      <div onclick="showLeaderboard()" class="menu-card glass-card rounded-2xl p-6 cursor-pointer text-center bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/50">
+       <div class="text-5xl mb-4">
+        🥇
+       </div>
+       <h3 class="font-bold text-lg text-yellow-400">Leaderboard</h3>
+       <p class="text-sm text-gray-300">Papan Peringkat</p>
+       <div class="mt-4 text-xs text-yellow-400">
+        KOMPETISI
+       </div>
+      </div>
+      <div onclick="showReflection()" class="menu-card glass-card rounded-2xl p-6 cursor-pointer text-center bg-gradient-to-br from-pink-500/20 to-red-500/20 border border-pink-500/50">
+       <div class="text-5xl mb-4">
+        📝
+       </div>
+       <h3 class="font-bold text-lg text-pink-400">Refleksi</h3>
+       <p class="text-sm text-gray-300">Evaluasi Diri</p>
+       <div class="mt-4 text-xs text-pink-400">
+        MEREFLEKSI
+       </div>
+      </div>
+     </div><!-- QA Section -->
+     <div onclick="showQA()" class="menu-card glass-card rounded-2xl p-6 cursor-pointer text-center bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/50 max-w-md mx-auto mb-8">
+      <div class="text-5xl mb-4">
+       💬
+      </div>
+      <h3 class="font-bold text-lg text-blue-400">Tanya Jawab</h3>
+      <p class="text-sm text-gray-300">Bertanya kepada Guru</p>
+     </div><!-- Footer -->
+     <div class="text-center text-sm text-gray-400 mt-8">
+      <p>Created by: <span class="text-cyan-400 font-semibold">Syahrial</span></p><a href="https://www.instagram.com/kampaisyahrial" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 mt-2"> <span>📷</span> @kampaisyahrial </a>
+     </div>
+    </div>
+   </div><!-- Page: Materi -->
+   <div id="page-materi" class="page min-h-full p-4 hidden">
+    <div class="max-w-4xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div id="materi-content" class="glass-card neon-border rounded-2xl p-6 md:p-8"></div>
+    </div>
+   </div><!-- Page: Drag Drop -->
+   <div id="page-dragdrop" class="page min-h-full p-4 hidden">
+    <div class="max-w-4xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-cyan mb-2">🎯 Latihan Drag &amp; Drop</h2>
+      <p class="text-gray-300">Seret jawaban ke kotak yang sesuai!</p>
+     </div>
+     <div class="glass-card rounded-2xl p-6 mb-6">
+      <h3 class="text-xl font-bold text-center mb-6 text-purple-300">Pasangkan Jenis Takdir dengan Contohnya</h3>
+      <div class="grid md:grid-cols-2 gap-8"><!-- Drop Zones -->
+       <div class="space-y-4">
+        <div class="drop-zone glass-card neon-border rounded-xl p-4 min-h-24" data-answer="mubram">
+         <p class="text-cyan-300 font-bold mb-2">Takdir Mubram</p>
+         <p class="text-sm text-gray-400">Takdir yang pasti terjadi</p>
+         <div class="dropped-items mt-2 space-y-2"></div>
+        </div>
+        <div class="drop-zone glass-card neon-border-pink rounded-xl p-4 min-h-24" data-answer="muallaq">
+         <p class="text-pink-300 font-bold mb-2">Takdir Muallaq</p>
+         <p class="text-sm text-gray-400">Takdir yang bisa berubah dengan usaha</p>
+         <div class="dropped-items mt-2 space-y-2"></div>
+        </div>
+       </div><!-- Drag Items -->
+       <div id="drag-items" class="space-y-3">
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram"><span class="text-2xl mr-2">☀️</span> Matahari terbit dari timur
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq"><span class="text-2xl mr-2">📚</span> Menjadi pintar dengan belajar
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram"><span class="text-2xl mr-2">💀</span> Setiap makhluk akan mati
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq"><span class="text-2xl mr-2">💪</span> Menjadi kaya dengan bekerja keras
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram"><span class="text-2xl mr-2">👶</span> Jenis kelamin saat lahir
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq"><span class="text-2xl mr-2">🏥</span> Sembuh dari sakit dengan berobat
+        </div>
+       </div>
+      </div>
+      <div class="text-center mt-8"><button onclick="checkDragDrop()" class="btn-cyber px-8 py-3 rounded-xl text-lg font-bold text-gray-900"> ✓ Periksa Jawaban </button> <button onclick="resetDragDrop()" class="glass-card px-8 py-3 rounded-xl text-lg font-bold ml-4 hover:bg-white/20 transition"> 🔄 Reset </button>
+      </div>
+     </div>
+     <div id="dragdrop-result" class="hidden glass-card rounded-2xl p-6 text-center"></div>
+    </div>
+   </div><!-- Page: Quiz -->
+   <div id="page-quiz" class="page min-h-full p-4 hidden">
+    <div class="max-w-3xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-cyan mb-2">🏆 Kuis Bertingkat</h2>
+      <p class="text-gray-300">Pilih level dan uji pemahamanmu!</p>
+     </div><!-- Level Selection -->
+     <div id="quiz-levels" class="grid grid-cols-3 gap-4 mb-8"><button onclick="startQuizLevel('easy')" class="menu-card glass-card rounded-2xl p-6 text-center border-2 border-green-500/50">
+       <div class="text-4xl mb-2">
+        ⭐
+       </div><h3 class="font-bold text-green-400">MUDAH</h3><p class="text-xs text-gray-400 mt-2">5 Soal</p>
+       <div id="score-easy" class="mt-2 text-sm text-yellow-400"></div></button> <button onclick="startQuizLevel('medium')" class="menu-card glass-card rounded-2xl p-6 text-center border-2 border-yellow-500/50">
+       <div class="text-4xl mb-2">
+        ⭐⭐
+       </div><h3 class="font-bold text-yellow-400">MENENGAH</h3><p class="text-xs text-gray-400 mt-2">5 Soal</p>
+       <div id="score-medium" class="mt-2 text-sm text-yellow-400"></div></button> <button onclick="startQuizLevel('hard')" class="menu-card glass-card rounded-2xl p-6 text-center border-2 border-red-500/50">
+       <div class="text-4xl mb-2">
+        ⭐⭐⭐
+       </div><h3 class="font-bold text-red-400">SULIT</h3><p class="text-xs text-gray-400 mt-2">5 Soal</p>
+       <div id="score-hard" class="mt-2 text-sm text-yellow-400"></div></button>
+     </div><!-- Quiz Content -->
+     <div id="quiz-content" class="hidden">
+      <div class="glass-card neon-border rounded-2xl p-6">
+       <div class="flex justify-between items-center mb-6"><span id="quiz-level-badge" class="px-4 py-1 rounded-full text-sm font-bold"></span> <span id="quiz-progress" class="text-cyan-300"></span>
+       </div>
+       <div id="quiz-question" class="text-xl font-bold text-center mb-8"></div>
+       <div id="quiz-options" class="space-y-3"></div>
+       <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl text-center"></div>
+       <div class="text-center mt-6"><button id="quiz-next" onclick="nextQuestion()" class="btn-cyber px-8 py-3 rounded-xl text-lg font-bold text-gray-900 hidden"> Selanjutnya → </button>
+       </div>
+      </div>
+     </div><!-- Quiz Result -->
+     <div id="quiz-result" class="hidden glass-card rounded-2xl p-8 text-center"></div>
+    </div>
+   </div><!-- Page: Leaderboard -->
+   <div id="page-leaderboard" class="page min-h-full p-4 hidden">
+    <div class="max-w-2xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-gold mb-2 animate-neon">🥇 LEADERBOARD 🥇</h2>
+      <p class="text-gray-300">Papan Peringkat Kelas</p>
+     </div>
+     <div class="glass-card neon-border-gold rounded-2xl p-6">
+      <div id="leaderboard-list" class="space-y-3"></div>
+      <div id="leaderboard-empty" class="text-center py-12 text-gray-400">
+       <div class="text-6xl mb-4">
+        🏆
+       </div>
+       <p>Belum ada data. Selesaikan kuis untuk masuk leaderboard!</p>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page: Reflection -->
+   <div id="page-reflection" class="page min-h-full p-4 hidden">
+    <div class="max-w-2xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-pink mb-2">📝 Lembar Refleksi</h2>
+      <p class="text-gray-300">Evaluasi pemahaman dan proses belajarmu</p>
+     </div>
+     <div class="glass-card neon-border-pink rounded-2xl p-6">
+      <div class="space-y-6">
+       <div><label class="block text-pink-300 font-bold mb-2">1. Apa yang kamu pelajari hari ini tentang Qaḍa dan Qadar?</label> <textarea id="reflect-1" rows="3" class="w-full rounded-xl p-4" placeholder="Tuliskan pemahamanmu..."></textarea>
+       </div>
+       <div><label class="block text-pink-300 font-bold mb-2">2. Bagaimana kamu akan menerapkan sikap beriman kepada takdir dalam kehidupan sehari-hari?</label> <textarea id="reflect-2" rows="3" class="w-full rounded-xl p-4" placeholder="Tuliskan rencanamu..."></textarea>
+       </div>
+       <div><label class="block text-pink-300 font-bold mb-2">3. Apa hal yang masih ingin kamu pelajari lebih lanjut?</label> <textarea id="reflect-3" rows="3" class="w-full rounded-xl p-4" placeholder="Tuliskan pertanyaanmu..."></textarea>
+       </div>
+       <div><label class="block text-pink-300 font-bold mb-2">4. Berikan penilaian untuk dirimu sendiri (1-10)</label> <input type="range" id="reflect-score" min="1" max="10" value="5" class="w-full">
+        <div class="flex justify-between text-sm text-gray-400 mt-1"><span>1 - Perlu belajar lagi</span> <span id="reflect-score-value" class="text-yellow-400 font-bold">5</span> <span>10 - Sangat paham</span>
+        </div>
+       </div><button onclick="submitReflection()" class="btn-cyber w-full py-4 rounded-xl text-xl font-bold text-gray-900"> 💾 Simpan Refleksi </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page: QA -->
+   <div id="page-qa" class="page min-h-full p-4 hidden">
+    <div class="max-w-3xl mx-auto"><button onclick="goToMenu()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Kembali ke Menu </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-cyan mb-2">💬 Tanya Jawab</h2>
+      <p class="text-gray-300">Bertanya kepada Guru</p>
+     </div>
+     <div class="glass-card neon-border rounded-2xl p-6 mb-6">
+      <h3 class="font-bold text-cyan-300 mb-4">📝 Ajukan Pertanyaan</h3><textarea id="qa-question" rows="3" class="w-full rounded-xl p-4 mb-4" placeholder="Tuliskan pertanyaanmu tentang Qaḍa dan Qadar..."></textarea> <button onclick="submitQuestion()" class="btn-cyber px-6 py-3 rounded-xl font-bold text-gray-900"> 📤 Kirim Pertanyaan </button>
+     </div>
+     <div class="glass-card rounded-2xl p-6">
+      <h3 class="font-bold text-pink-300 mb-4">📋 Daftar Pertanyaan &amp; Jawaban</h3>
+      <div id="qa-list" class="space-y-4 max-h-96 overflow-y-auto scrollbar-cyber"></div>
+      <div id="qa-empty" class="text-center py-8 text-gray-400">
+       <div class="text-4xl mb-2">
+        💭
+       </div>
+       <p>Belum ada pertanyaan. Jadilah yang pertama bertanya!</p>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page: Teacher Panel -->
+   <div id="page-teacher" class="page min-h-full p-4 hidden">
+    <div class="max-w-4xl mx-auto"><button onclick="logoutTeacher()" class="glass-card px-4 py-2 rounded-lg mb-6 hover:bg-white/20 transition"> ← Keluar Panel Guru </button>
+     <div class="text-center mb-8">
+      <h2 class="font-orbitron text-3xl font-bold text-neon-gold mb-2">👨‍🏫 PANEL GURU</h2>
+      <p class="text-gray-300">Kelola data siswa dan hasil kuis</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-6 mb-8"><!-- Student Management -->
+      <div class="glass-card neon-border rounded-2xl p-6">
+       <h3 class="font-bold text-cyan-300 mb-4 text-lg">📋 Manajemen Siswa</h3>
+       <div class="mb-4"><button onclick="resetAllStudents()" class="w-full bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-xl hover:bg-red-500/30 transition mb-3"> 🗑️ Reset Semua Data Siswa </button>
+       </div>
+       <div class="space-y-2 max-h-64 overflow-y-auto scrollbar-cyber" id="student-list"></div>
+       <div id="student-empty" class="text-center py-4 text-gray-400">
+        <p>Belum ada data siswa</p>
+       </div>
+      </div><!-- Quiz Results -->
+      <div class="glass-card neon-border-pink rounded-2xl p-6">
+       <h3 class="font-bold text-pink-300 mb-4 text-lg">🏆 Hasil Kuis Siswa</h3>
+       <div class="space-y-2 max-h-80 overflow-y-auto scrollbar-cyber" id="quiz-results-list"></div>
+       <div id="quiz-results-empty" class="text-center py-4 text-gray-400">
+        <p>Belum ada hasil kuis</p>
+       </div>
+      </div>
+     </div><!-- QA Management -->
+     <div class="glass-card neon-border-gold rounded-2xl p-6">
+      <h3 class="font-bold text-yellow-300 mb-4 text-lg">💬 Kelola Tanya Jawab</h3>
+      <div class="space-y-4 max-h-96 overflow-y-auto scrollbar-cyber" id="teacher-qa-list"></div>
+      <div id="teacher-qa-empty" class="text-center py-4 text-gray-400">
+       <p>Belum ada pertanyaan dari siswa</p>
+      </div>
+     </div>
+    </div>
+   </div><!-- Teacher Login Modal -->
+   <div id="teacher-login-modal" class="fixed inset-0 popup-overlay flex items-center justify-center z-40 hidden">
+    <div class="glass-card neon-border-gold rounded-2xl p-8 max-w-md w-full mx-4 animate-bounce-in">
+     <h3 class="font-orbitron text-2xl font-bold text-neon-gold mb-6 text-center">🔐 Login Guru</h3>
+     <div class="space-y-4">
+      <div><label class="block text-yellow-300 mb-2 text-sm">Kode Akses Guru</label> <input type="password" id="teacher-password" placeholder="Masukkan kode akses..." class="w-full px-4 py-3 rounded-xl">
+      </div>
+      <div id="teacher-login-error" class="hidden text-red-400 text-sm text-center"></div>
+      <div class="flex gap-4"><button onclick="hideTeacherLogin()" class="flex-1 glass-card px-4 py-3 rounded-xl hover:bg-white/20 transition"> Batal </button> <button onclick="verifyTeacherLogin()" class="flex-1 btn-cyber px-4 py-3 rounded-xl font-bold text-gray-900"> Masuk </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Popup Modal -->
+   <div id="popup-modal" class="fixed inset-0 popup-overlay flex items-center justify-center z-40 hidden">
+    <div class="glass-card neon-border rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[80%] overflow-y-auto scrollbar-cyber animate-bounce-in">
+     <div id="popup-content"></div><button onclick="closePopup()" class="btn-cyber w-full py-3 rounded-xl font-bold text-gray-900 mt-6"> ✓ Mengerti </button>
+    </div>
+   </div><!-- Confirm Modal -->
+   <div id="confirm-modal" class="fixed inset-0 popup-overlay flex items-center justify-center z-50 hidden">
+    <div class="glass-card neon-border rounded-2xl p-6 max-w-sm w-full mx-4 animate-bounce-in">
+     <div id="confirm-content" class="text-center mb-6"></div>
+     <div class="flex gap-4"><button onclick="cancelConfirm()" class="flex-1 glass-card px-4 py-3 rounded-xl hover:bg-white/20 transition"> Batal </button> <button id="confirm-btn" class="flex-1 bg-red-500 px-4 py-3 rounded-xl font-bold hover:bg-red-600 transition"> Hapus </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ===== CONFIG =====
+    const defaultConfig = {
+      main_title: 'Indahnya Ketetapan Allah',
+      welcome_text: 'Selamat Datang di Media Pembelajaran',
+      primary_color: '#00fff7',
+      secondary_color: '#ff00ff',
+      accent_color: '#ffd700',
+      background_color: '#0f0c29',
+      text_color: '#ffffff'
+    };
+
+    let config = { ...defaultConfig };
+    let currentStudent = null;
+    let allData = [];
+    let isTeacherLoggedIn = false;
+    let confirmCallback = null;
+
+    // Quiz Data
+    const quizData = {
+      easy: [
+        { q: "Qaḍa artinya...", options: ["Ketetapan Allah", "Keinginan manusia", "Harapan", "Mimpi"], answer: 0 },
+        { q: "Qadar artinya...", options: ["Ukuran/ketentuan Allah", "Ukuran baju", "Berat badan", "Tinggi badan"], answer: 0 },
+        { q: "Beriman kepada Qaḍa dan Qadar termasuk rukun iman ke...", options: ["6", "5", "4", "3"], answer: 0 },
+        { q: "Takdir yang pasti terjadi disebut takdir...", options: ["Mubram", "Muallaq", "Mutlak", "Mukhtar"], answer: 0 },
+        { q: "Takdir yang bisa berubah dengan usaha disebut takdir...", options: ["Muallaq", "Mubram", "Mutlak", "Pasti"], answer: 0 }
+      ],
+      medium: [
+        { q: "Contoh takdir mubram adalah...", options: ["Kematian", "Menjadi kaya", "Nilai ujian", "Jumlah teman"], answer: 0 },
+        { q: "Sikap yang benar ketika mendapat musibah adalah...", options: ["Sabar dan tawakal", "Marah", "Putus asa", "Menyalahkan orang lain"], answer: 0 },
+        { q: "Menjadi pintar dengan belajar giat termasuk contoh takdir...", options: ["Muallaq", "Mubram", "Pasti", "Tetap"], answer: 0 },
+        { q: "Hikmah beriman kepada Qaḍa dan Qadar adalah...", options: ["Tidak mudah putus asa", "Malas berusaha", "Pasrah tanpa ikhtiar", "Sombong"], answer: 0 },
+        { q: "Usaha manusia untuk mengubah nasib disebut...", options: ["Ikhtiar", "Pasrah", "Diam", "Menunggu"], answer: 0 }
+      ],
+      hard: [
+        { q: "Dalil tentang Qaḍa dan Qadar terdapat dalam Al-Quran surah...", options: ["Al-Qamar ayat 49", "Al-Fatihah ayat 1", "An-Nas ayat 1", "Al-Ikhlas ayat 1"], answer: 0 },
+        { q: "Orang yang tidak beriman kepada Qaḍa dan Qadar akan bersikap...", options: ["Sombong saat sukses, putus asa saat gagal", "Selalu bersyukur", "Selalu sabar", "Selalu tenang"], answer: 0 },
+        { q: "Hubungan antara ikhtiar dan tawakal yang benar adalah...", options: ["Ikhtiar dulu baru tawakal", "Tawakal saja tanpa ikhtiar", "Ikhtiar tanpa tawakal", "Tidak perlu keduanya"], answer: 0 },
+        { q: "Jenis kelamin bayi yang akan lahir termasuk takdir...", options: ["Mubram", "Muallaq", "Berubah", "Pilihan"], answer: 0 },
+        { q: "Makna 'Innaa lillaahi wa innaa ilaihi raaji'uun' adalah...", options: ["Sesungguhnya kita milik Allah dan akan kembali kepada-Nya", "Segala puji bagi Allah", "Allah Maha Besar", "Dengan nama Allah"], answer: 0 }
+      ]
+    };
+
+    let currentQuiz = { level: '', questions: [], currentIndex: 0, score: 0, answered: false };
+
+    // Materi Data
+    const materiData = {
+      1: {
+        title: "📖 Makna Iman kepada Qaḍa dan Qadar",
+        content: `
+          <div class="space-y-6">
+            <div class="text-center mb-8">
+              <span class="text-6xl animate-float inline-block">🌙</span>
+            </div>
+            
+            <div class="bg-cyan-500/10 rounded-xl p-6 border border-cyan-500/30">
+              <h4 class="font-bold text-cyan-300 text-xl mb-4">🔹 Pengertian Qaḍa</h4>
+              <p class="text-gray-200 leading-relaxed">
+                <strong>Qaḍa</strong> secara bahasa artinya <em>ketetapan</em> atau <em>keputusan</em>. 
+                Secara istilah, Qaḍa adalah <strong>ketetapan Allah Swt. sejak zaman azali</strong> (sebelum terciptanya alam semesta) 
+                tentang segala sesuatu yang akan terjadi pada makhluk-Nya.
+              </p>
+            </div>
+            
+            <div class="bg-pink-500/10 rounded-xl p-6 border border-pink-500/30">
+              <h4 class="font-bold text-pink-300 text-xl mb-4">🔹 Pengertian Qadar</h4>
+              <p class="text-gray-200 leading-relaxed">
+                <strong>Qadar</strong> secara bahasa artinya <em>ukuran</em> atau <em>ketentuan</em>. 
+                Secara istilah, Qadar adalah <strong>perwujudan dari Qaḍa</strong>, yaitu terlaksananya 
+                ketetapan Allah pada makhluk-Nya sesuai dengan ketentuan yang telah ditetapkan.
+              </p>
+            </div>
+            
+            <div class="bg-yellow-500/10 rounded-xl p-6 border border-yellow-500/30">
+              <h4 class="font-bold text-yellow-300 text-xl mb-4">⭐ Kesimpulan</h4>
+              <p class="text-gray-200 leading-relaxed">
+                <strong>Iman kepada Qaḍa dan Qadar</strong> berarti meyakini dengan sepenuh hati bahwa 
+                segala sesuatu yang terjadi di alam semesta ini adalah atas kehendak dan ketetapan Allah Swt., 
+                dan Allah Maha Mengetahui segala sesuatu sebelum, sedang, dan sesudah terjadi.
+              </p>
+            </div>
+            
+            <div class="text-center bg-purple-500/10 rounded-xl p-6 border border-purple-500/30">
+              <p class="text-purple-300 italic text-lg">"Sesungguhnya Kami menciptakan segala sesuatu menurut ukuran (qadar)."</p>
+              <p class="text-sm text-gray-400 mt-2">— QS. Al-Qamar: 49</p>
+            </div>
+          </div>
+        `
+      },
+      2: {
+        title: "🌟 Jenis-Jenis Takdir dan Contohnya",
+        content: `
+          <div class="space-y-6">
+            <div class="text-center mb-8">
+              <span class="text-6xl animate-float inline-block">✨</span>
+            </div>
+            
+            <div class="bg-cyan-500/10 rounded-xl p-6 border border-cyan-500/30">
+              <h4 class="font-bold text-cyan-300 text-xl mb-4">1️⃣ Takdir Mubram (Takdir Pasti)</h4>
+              <p class="text-gray-200 leading-relaxed mb-4">
+                Takdir Mubram adalah <strong>takdir yang pasti terjadi</strong> dan tidak dapat diubah 
+                oleh siapapun, karena sudah menjadi ketentuan mutlak dari Allah Swt.
+              </p>
+              <div class="bg-black/20 rounded-lg p-4">
+                <p class="text-cyan-200 font-semibold mb-2">📌 Contoh Takdir Mubram:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                  <li>☀️ Matahari terbit dari timur dan tenggelam di barat</li>
+                  <li>💀 Setiap makhluk hidup pasti akan mati</li>
+                  <li>👶 Jenis kelamin saat dilahirkan</li>
+                  <li>👨‍👩‍👧 Siapa orang tua kita</li>
+                  <li>🌍 Tempat dan waktu kelahiran</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="bg-pink-500/10 rounded-xl p-6 border border-pink-500/30">
+              <h4 class="font-bold text-pink-300 text-xl mb-4">2️⃣ Takdir Muallaq (Takdir Bersyarat)</h4>
+              <p class="text-gray-200 leading-relaxed mb-4">
+                Takdir Muallaq adalah <strong>takdir yang bisa berubah</strong> tergantung pada 
+                usaha (ikhtiar) dan doa manusia. Allah memberikan kesempatan untuk berusaha mengubah keadaan.
+              </p>
+              <div class="bg-black/20 rounded-lg p-4">
+                <p class="text-pink-200 font-semibold mb-2">📌 Contoh Takdir Muallaq:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                  <li>📚 Menjadi pintar dengan belajar giat</li>
+                  <li>💪 Menjadi kuat dengan berolahraga</li>
+                  <li>💰 Menjadi kaya dengan bekerja keras</li>
+                  <li>🏥 Sembuh dari sakit dengan berobat</li>
+                  <li>🎓 Lulus ujian dengan belajar sungguh-sungguh</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="text-center bg-yellow-500/10 rounded-xl p-6 border border-yellow-500/30">
+              <p class="text-yellow-300 font-bold text-lg">💡 Ingat!</p>
+              <p class="text-gray-200 mt-2">
+                Meskipun ada takdir muallaq yang bisa diusahakan, hasil akhirnya tetap atas kehendak Allah. 
+                Kita wajib berusaha dan berdoa, lalu menyerahkan hasilnya kepada Allah (tawakal).
+              </p>
+            </div>
+          </div>
+        `
+      },
+      3: {
+        title: "🤲 Sikap Terhadap Takdir Allah Swt.",
+        content: `
+          <div class="space-y-6">
+            <div class="text-center mb-8">
+              <span class="text-6xl animate-float inline-block">🤲</span>
+            </div>
+            
+            <div class="bg-green-500/10 rounded-xl p-6 border border-green-500/30">
+              <h4 class="font-bold text-green-300 text-xl mb-4">✅ Sikap yang Benar</h4>
+              <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl">1️⃣</span>
+                  <div>
+                    <p class="font-semibold text-green-200">Bersyukur saat mendapat nikmat</p>
+                    <p class="text-gray-300 text-sm">Mengucapkan Alhamdulillah dan menggunakan nikmat untuk kebaikan</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl">2️⃣</span>
+                  <div>
+                    <p class="font-semibold text-green-200">Bersabar saat mendapat musibah</p>
+                    <p class="text-gray-300 text-sm">Mengucapkan Innaa lillaahi wa innaa ilaihi raaji'uun</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl">3️⃣</span>
+                  <div>
+                    <p class="font-semibold text-green-200">Berikhtiar (berusaha) semaksimal mungkin</p>
+                    <p class="text-gray-300 text-sm">Tidak pasrah tanpa usaha, tetap berusaha sambil berdoa</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl">4️⃣</span>
+                  <div>
+                    <p class="font-semibold text-green-200">Bertawakal kepada Allah</p>
+                    <p class="text-gray-300 text-sm">Menyerahkan hasil usaha kepada Allah setelah berikhtiar</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl">5️⃣</span>
+                  <div>
+                    <p class="font-semibold text-green-200">Tidak sombong dan tidak putus asa</p>
+                    <p class="text-gray-300 text-sm">Tetap rendah hati saat sukses, bangkit saat gagal</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-red-500/10 rounded-xl p-6 border border-red-500/30">
+              <h4 class="font-bold text-red-300 text-xl mb-4">❌ Sikap yang Salah</h4>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">🚫</span>
+                  <p class="text-gray-300">Menyalahkan takdir atas kegagalan tanpa berusaha</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">🚫</span>
+                  <p class="text-gray-300">Sombong dan lupa bersyukur saat sukses</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">🚫</span>
+                  <p class="text-gray-300">Putus asa dan malas berusaha</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">🚫</span>
+                  <p class="text-gray-300">Iri dan dengki kepada orang lain</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      4: {
+        title: "💎 Hikmah Beriman Kepada Qaḍa dan Qadar",
+        content: `
+          <div class="space-y-6">
+            <div class="text-center mb-8">
+              <span class="text-6xl animate-float inline-block">💎</span>
+            </div>
+            
+            <div class="grid gap-4">
+              <div class="bg-gradient-to-r from-cyan-500/20 to-transparent rounded-xl p-5 border-l-4 border-cyan-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">1️⃣</span>
+                  <div>
+                    <p class="font-bold text-cyan-300">Hati Menjadi Tenang</p>
+                    <p class="text-gray-300 text-sm">Tidak cemas berlebihan karena yakin semua atas kehendak Allah</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-r from-pink-500/20 to-transparent rounded-xl p-5 border-l-4 border-pink-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">2️⃣</span>
+                  <div>
+                    <p class="font-bold text-pink-300">Tidak Mudah Putus Asa</p>
+                    <p class="text-gray-300 text-sm">Tetap semangat meski menghadapi kegagalan</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-r from-yellow-500/20 to-transparent rounded-xl p-5 border-l-4 border-yellow-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">3️⃣</span>
+                  <div>
+                    <p class="font-bold text-yellow-300">Tidak Sombong</p>
+                    <p class="text-gray-300 text-sm">Sadar bahwa semua keberhasilan atas izin Allah</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-r from-green-500/20 to-transparent rounded-xl p-5 border-l-4 border-green-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">4️⃣</span>
+                  <div>
+                    <p class="font-bold text-green-300">Giat Berusaha dan Berdoa</p>
+                    <p class="text-gray-300 text-sm">Termotivasi untuk berikhtiar karena tahu takdir bisa diusahakan</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-r from-purple-500/20 to-transparent rounded-xl p-5 border-l-4 border-purple-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">5️⃣</span>
+                  <div>
+                    <p class="font-bold text-purple-300">Pandai Bersyukur</p>
+                    <p class="text-gray-300 text-sm">Selalu berterima kasih atas nikmat yang diberikan Allah</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gradient-to-r from-orange-500/20 to-transparent rounded-xl p-5 border-l-4 border-orange-400">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">6️⃣</span>
+                  <div>
+                    <p class="font-bold text-orange-300">Menjauhkan dari Sifat Iri</p>
+                    <p class="text-gray-300 text-sm">Tidak iri dengan rezeki orang lain karena yakin rezeki sudah diatur</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center bg-white/5 rounded-xl p-6 mt-6">
+              <p class="text-xl font-bold text-neon-gold mb-2">🌟 Pesan Penting 🌟</p>
+              <p class="text-gray-200">
+                "Berusahalah seolah-olah kamu akan hidup selamanya, dan beribadahlah seolah-olah kamu akan mati besok."
+              </p>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    // ===== DATA SDK HANDLER =====
+    const dataHandler = {
+      onDataChanged(data) {
+        allData = data;
+        updateLeaderboard();
+        updateQAList();
+        if (isTeacherLoggedIn) {
+          updateTeacherPanel();
+        }
+        updateQuizScoreDisplay();
+      }
+    };
+
+    // ===== INITIALIZATION =====
+    async function initApp() {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error("Failed to initialize data SDK");
+        }
+      }
+      
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (cfg) => {
+            config = { ...defaultConfig, ...cfg };
+          },
+          mapToCapabilities: (cfg) => ({
+            recolorables: [
+              { get: () => cfg.primary_color || defaultConfig.primary_color, set: (v) => window.elementSdk.setConfig({ primary_color: v }) },
+              { get: () => cfg.secondary_color || defaultConfig.secondary_color, set: (v) => window.elementSdk.setConfig({ secondary_color: v }) },
+              { get: () => cfg.accent_color || defaultConfig.accent_color, set: (v) => window.elementSdk.setConfig({ accent_color: v }) },
+              { get: () => cfg.background_color || defaultConfig.background_color, set: (v) => window.elementSdk.setConfig({ background_color: v }) },
+              { get: () => cfg.text_color || defaultConfig.text_color, set: (v) => window.elementSdk.setConfig({ text_color: v }) }
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ["main_title", cfg.main_title || defaultConfig.main_title],
+            ["welcome_text", cfg.welcome_text || defaultConfig.welcome_text]
+          ])
+        });
+      }
+
+      // Setup reflection score slider
+      const slider = document.getElementById('reflect-score');
+      if (slider) {
+        slider.addEventListener('input', () => {
+          document.getElementById('reflect-score-value').textContent = slider.value;
+        });
+      }
+
+      // Setup drag and drop
+      setupDragDrop();
+    }
+
+    // ===== NAVIGATION =====
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(pageId).classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function goToMenu() {
+      showPage('page-menu');
+    }
+
+    // ===== STUDENT FUNCTIONS =====
+    async function startLearning() {
+      const name = document.getElementById('input-name').value.trim();
+      const studentClass = document.getElementById('input-class').value;
+      
+      if (!name || !studentClass) {
+        showToast('Mohon isi nama dan pilih kelas!', 'error');
+        return;
+      }
+      
+      currentStudent = { name, class: studentClass };
+      document.getElementById('display-name').textContent = name;
+      document.getElementById('display-class').textContent = studentClass;
+      
+      // Check if student exists
+      const existing = allData.find(d => d.type === 'student' && d.student_name === name && d.student_class === studentClass);
+      
+      if (!existing && window.dataSdk) {
+        if (allData.filter(d => d.type === 'student').length >= 999) {
+          showToast('Batas data tercapai!', 'error');
+          return;
+        }
+        const result = await window.dataSdk.create({
+          type: 'student',
+          student_name: name,
+          student_class: studentClass,
+          quiz_score_easy: 0,
+          quiz_score_medium: 0,
+          quiz_score_hard: 0,
+          total_score: 0,
+          reflection: '',
+          question: '',
+          answer: '',
+          timestamp: new Date().toISOString(),
+          answered: false
+        });
+        if (!result.isOk) {
+          showToast('Gagal menyimpan data', 'error');
+        }
+      }
+      
+      showPage('page-menu');
+      playSound('welcome');
+    }
+
+    // ===== MATERI FUNCTIONS =====
+    function showMateri(num) {
+      const materi = materiData[num];
+      document.getElementById('materi-content').innerHTML = `
+        <h2 class="font-orbitron text-2xl font-bold text-neon-cyan mb-6">${materi.title}</h2>
+        ${materi.content}
+      `;
+      showPage('page-materi');
+    }
+
+    // ===== DRAG DROP FUNCTIONS =====
+    function setupDragDrop() {
+      const dragItems = document.querySelectorAll('.drag-item');
+      const dropZones = document.querySelectorAll('.drop-zone');
+      
+      dragItems.forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', e.target.outerHTML);
+          e.dataTransfer.setData('type', e.target.dataset.type);
+          setTimeout(() => e.target.classList.add('dragging'), 0);
+        });
+        
+        item.addEventListener('dragend', (e) => {
+          e.target.classList.remove('dragging');
+        });
+      });
+      
+      dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          zone.classList.add('drag-over');
+        });
+        
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('drag-over');
+        });
+        
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          const html = e.dataTransfer.getData('text/plain');
+          const droppedContainer = zone.querySelector('.dropped-items');
+          
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
+          const newItem = temp.firstChild;
+          newItem.draggable = false;
+          newItem.classList.remove('cursor-grab');
+          newItem.classList.add('cursor-default', 'text-sm');
+          
+          droppedContainer.appendChild(newItem);
+          
+          // Remove from original
+          const original = document.querySelector('.drag-item.dragging');
+          if (original) original.remove();
+        });
+      });
+    }
+
+    function showDragDrop() {
+      showPage('page-dragdrop');
+      resetDragDrop();
+    }
+
+    function resetDragDrop() {
+      document.getElementById('drag-items').innerHTML = `
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram">
+          <span class="text-2xl mr-2">☀️</span> Matahari terbit dari timur
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq">
+          <span class="text-2xl mr-2">📚</span> Menjadi pintar dengan belajar
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram">
+          <span class="text-2xl mr-2">💀</span> Setiap makhluk akan mati
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq">
+          <span class="text-2xl mr-2">💪</span> Menjadi kaya dengan bekerja keras
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="mubram">
+          <span class="text-2xl mr-2">👶</span> Jenis kelamin saat lahir
+        </div>
+        <div class="drag-item glass-card rounded-xl p-4 cursor-grab" draggable="true" data-type="muallaq">
+          <span class="text-2xl mr-2">🏥</span> Sembuh dari sakit dengan berobat
+        </div>
+      `;
+      
+      document.querySelectorAll('.dropped-items').forEach(c => c.innerHTML = '');
+      document.getElementById('dragdrop-result').classList.add('hidden');
+      setupDragDrop();
+    }
+
+    function checkDragDrop() {
+      const zones = document.querySelectorAll('.drop-zone');
+      let correct = 0;
+      let total = 0;
+      
+      zones.forEach(zone => {
+        const expectedType = zone.dataset.answer;
+        const items = zone.querySelectorAll('.dropped-items > div');
+        
+        items.forEach(item => {
+          total++;
+          if (item.dataset.type === expectedType) {
+            correct++;
+            item.classList.add('border-2', 'border-green-500');
+          } else {
+            item.classList.add('border-2', 'border-red-500');
+          }
+        });
+      });
+      
+      const result = document.getElementById('dragdrop-result');
+      result.classList.remove('hidden');
+      
+      if (correct === total && total > 0) {
+        result.innerHTML = `
+          <div class="text-6xl mb-4">🎉</div>
+          <h3 class="text-2xl font-bold text-green-400 mb-2">Sempurna!</h3>
+          <p class="text-gray-300">Kamu berhasil menjawab ${correct} dari ${total} dengan benar!</p>
+        `;
+        createCelebration();
+        playSound('correct');
+      } else if (total > 0) {
+        result.innerHTML = `
+          <div class="text-6xl mb-4">💪</div>
+          <h3 class="text-2xl font-bold text-yellow-400 mb-2">Bagus!</h3>
+          <p class="text-gray-300">Kamu menjawab ${correct} dari ${total} dengan benar. Coba lagi!</p>
+        `;
+      } else {
+        result.innerHTML = `
+          <div class="text-6xl mb-4">🤔</div>
+          <h3 class="text-2xl font-bold text-cyan-400 mb-2">Ayo Coba!</h3>
+          <p class="text-gray-300">Seret jawaban ke kotak yang sesuai!</p>
+        `;
+      }
+    }
+
+    // ===== QUIZ FUNCTIONS =====
+    function showQuiz() {
+      showPage('page-quiz');
+      document.getElementById('quiz-levels').classList.remove('hidden');
+      document.getElementById('quiz-content').classList.add('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+      updateQuizScoreDisplay();
+    }
+
+    function updateQuizScoreDisplay() {
+      if (!currentStudent) return;
+      
+      const studentData = allData.find(d => 
+        d.type === 'student' && 
+        d.student_name === currentStudent.name && 
+        d.student_class === currentStudent.class
+      );
+      
+      if (studentData) {
+        const easyScore = document.getElementById('score-easy');
+        const mediumScore = document.getElementById('score-medium');
+        const hardScore = document.getElementById('score-hard');
+        
+        if (studentData.quiz_score_easy > 0) easyScore.textContent = `Skor: ${studentData.quiz_score_easy}`;
+        if (studentData.quiz_score_medium > 0) mediumScore.textContent = `Skor: ${studentData.quiz_score_medium}`;
+        if (studentData.quiz_score_hard > 0) hardScore.textContent = `Skor: ${studentData.quiz_score_hard}`;
+      }
+    }
+
+    function startQuizLevel(level) {
+      currentQuiz = {
+        level,
+        questions: [...quizData[level]],
+        currentIndex: 0,
+        score: 0,
+        answered: false
+      };
+      
+      document.getElementById('quiz-levels').classList.add('hidden');
+      document.getElementById('quiz-content').classList.remove('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+      
+      const badge = document.getElementById('quiz-level-badge');
+      if (level === 'easy') {
+        badge.textContent = '⭐ MUDAH';
+        badge.className = 'px-4 py-1 rounded-full text-sm font-bold bg-green-500/30 text-green-400';
+      } else if (level === 'medium') {
+        badge.textContent = '⭐⭐ MENENGAH';
+        badge.className = 'px-4 py-1 rounded-full text-sm font-bold bg-yellow-500/30 text-yellow-400';
+      } else {
+        badge.textContent = '⭐⭐⭐ SULIT';
+        badge.className = 'px-4 py-1 rounded-full text-sm font-bold bg-red-500/30 text-red-400';
+      }
+      
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = currentQuiz.questions[currentQuiz.currentIndex];
+      document.getElementById('quiz-progress').textContent = `Soal ${currentQuiz.currentIndex + 1} / ${currentQuiz.questions.length}`;
+      document.getElementById('quiz-question').textContent = q.q;
+      
+      const optionsDiv = document.getElementById('quiz-options');
+      optionsDiv.innerHTML = q.options.map((opt, i) => `
+        <button onclick="selectAnswer(${i})" class="quiz-option w-full text-left p-4 rounded-xl glass-card hover:bg-white/20 transition border border-transparent">
+          <span class="inline-block w-8 h-8 rounded-full bg-white/10 text-center leading-8 mr-3">${String.fromCharCode(65 + i)}</span>
+          ${opt}
+        </button>
+      `).join('');
+      
+      document.getElementById('quiz-feedback').classList.add('hidden');
+      document.getElementById('quiz-next').classList.add('hidden');
+      currentQuiz.answered = false;
+    }
+
+    function selectAnswer(index) {
+      if (currentQuiz.answered) return;
+      currentQuiz.answered = true;
+      
+      const correct = currentQuiz.questions[currentQuiz.currentIndex].answer;
+      const options = document.querySelectorAll('.quiz-option');
+      
+      options.forEach((opt, i) => {
+        opt.disabled = true;
+        if (i === correct) {
+          opt.classList.add('border-green-500', 'bg-green-500/20');
+        } else if (i === index && i !== correct) {
+          opt.classList.add('border-red-500', 'bg-red-500/20');
+        }
+      });
+      
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.classList.remove('hidden');
+      
+      if (index === correct) {
+        currentQuiz.score++;
+        feedback.innerHTML = `
+          <div class="text-4xl mb-2">🎉</div>
+          <p class="text-green-400 font-bold text-xl">Benar! Hebat!</p>
+        `;
+        feedback.className = 'mt-6 p-4 rounded-xl text-center bg-green-500/20 border border-green-500';
+        createStars(5);
+        playSound('correct');
+      } else {
+        feedback.innerHTML = `
+          <div class="text-4xl mb-2">😅</div>
+          <p class="text-red-400 font-bold text-xl">Kurang tepat. Jawaban yang benar: ${String.fromCharCode(65 + correct)}</p>
+        `;
+        feedback.className = 'mt-6 p-4 rounded-xl text-center bg-red-500/20 border border-red-500';
+        playSound('wrong');
+      }
+      
+      document.getElementById('quiz-next').classList.remove('hidden');
+    }
+
+    async function nextQuestion() {
+      currentQuiz.currentIndex++;
+      
+      if (currentQuiz.currentIndex >= currentQuiz.questions.length) {
+        await showQuizResult();
+      } else {
+        showQuestion();
+      }
+    }
+
+    async function showQuizResult() {
+      document.getElementById('quiz-content').classList.add('hidden');
+      const result = document.getElementById('quiz-result');
+      result.classList.remove('hidden');
+      
+      const score = currentQuiz.score;
+      const total = currentQuiz.questions.length;
+      const percentage = Math.round((score / total) * 100);
+      
+      let message = '';
+      let emoji = '';
+      
+      if (percentage === 100) {
+        message = 'SEMPURNA! Kamu luar biasa!';
+        emoji = '🏆';
+        createCelebration();
+      } else if (percentage >= 80) {
+        message = 'Hebat! Kamu sudah sangat paham!';
+        emoji = '🌟';
+        createStars(10);
+      } else if (percentage >= 60) {
+        message = 'Bagus! Terus belajar ya!';
+        emoji = '👍';
+      } else {
+        message = 'Jangan menyerah! Coba pelajari lagi materinya.';
+        emoji = '💪';
+      }
+      
+      result.innerHTML = `
+        <div class="text-8xl mb-4 animate-bounce-in">${emoji}</div>
+        <h3 class="font-orbitron text-3xl font-bold text-neon-cyan mb-4">Hasil Kuis</h3>
+        <div class="text-6xl font-bold text-neon-gold mb-4">${score}/${total}</div>
+        <p class="text-2xl text-gray-200 mb-6">${message}</p>
+        <div class="flex gap-4 justify-center">
+          <button onclick="startQuizLevel('${currentQuiz.level}')" class="glass-card px-6 py-3 rounded-xl hover:bg-white/20 transition">
+            🔄 Ulangi Level Ini
+          </button>
+          <button onclick="showQuiz()" class="btn-cyber px-6 py-3 rounded-xl font-bold text-gray-900">
+            📋 Pilih Level Lain
+          </button>
+        </div>
+      `;
+      
+      // Save score
+      if (window.dataSdk && currentStudent) {
+        const studentData = allData.find(d => 
+          d.type === 'student' && 
+          d.student_name === currentStudent.name && 
+          d.student_class === currentStudent.class
+        );
+        
+        if (studentData) {
+          const scoreKey = `quiz_score_${currentQuiz.level}`;
+          const currentScore = studentData[scoreKey] || 0;
+          
+          if (score > currentScore) {
+            const updates = { ...studentData };
+            updates[scoreKey] = score;
+            updates.total_score = (updates.quiz_score_easy || 0) + (updates.quiz_score_medium || 0) + (updates.quiz_score_hard || 0);
+            if (scoreKey === `quiz_score_${currentQuiz.level}`) {
+              updates.total_score = updates.total_score - currentScore + score;
+            }
+            await window.dataSdk.update(updates);
+          }
+        }
+      }
+      
+      playSound('complete');
+    }
+
+    // ===== LEADERBOARD FUNCTIONS =====
+    function showLeaderboard() {
+      showPage('page-leaderboard');
+      updateLeaderboard();
+    }
+
+    function updateLeaderboard() {
+      const students = allData
+        .filter(d => d.type === 'student' && d.total_score > 0)
+        .sort((a, b) => b.total_score - a.total_score)
+        .slice(0, 10);
+      
+      const list = document.getElementById('leaderboard-list');
+      const empty = document.getElementById('leaderboard-empty');
+      
+      if (students.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      
+      empty.classList.add('hidden');
+      list.innerHTML = students.map((s, i) => {
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`;
+        const isCurrentUser = currentStudent && s.student_name === currentStudent.name && s.student_class === currentStudent.class;
+        
+        return `
+          <div class="leaderboard-item glass-card rounded-xl p-4 flex items-center gap-4 ${isCurrentUser ? 'neon-border' : ''}">
+            <div class="text-3xl w-12 text-center">${medal}</div>
+            <div class="flex-1">
+              <p class="font-bold ${isCurrentUser ? 'text-neon-cyan' : 'text-white'}">${s.student_name}</p>
+              <p class="text-sm text-gray-400">${s.student_class}</p>
+            </div>
+            <div class="text-right">
+              <p class="font-orbitron text-2xl font-bold text-neon-gold">${s.total_score}</p>
+              <p class="text-xs text-gray-400">Total Skor</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ===== REFLECTION FUNCTIONS =====
+    function showReflection() {
+      showPage('page-reflection');
+    }
+
+    async function submitReflection() {
+      const reflect1 = document.getElementById('reflect-1').value.trim();
+      const reflect2 = document.getElementById('reflect-2').value.trim();
+      const reflect3 = document.getElementById('reflect-3').value.trim();
+      const score = document.getElementById('reflect-score').value;
+      
+      if (!reflect1 || !reflect2 || !reflect3) {
+        showToast('Mohon isi semua pertanyaan refleksi!', 'error');
+        return;
+      }
+      
+      const reflection = `[Pemahaman]: ${reflect1}\n[Penerapan]: ${reflect2}\n[Pertanyaan]: ${reflect3}\n[Penilaian Diri]: ${score}/10`;
+      
+      if (window.dataSdk && currentStudent) {
+        const studentData = allData.find(d => 
+          d.type === 'student' && 
+          d.student_name === currentStudent.name && 
+          d.student_class === currentStudent.class
+        );
+        
+        if (studentData) {
+          await window.dataSdk.update({ ...studentData, reflection });
+        }
+      }
+      
+      showToast('Refleksi berhasil disimpan! 🎉', 'success');
+      createCelebration();
+      playSound('complete');
+      
+      setTimeout(() => goToMenu(), 2000);
+    }
+
+    // ===== QA FUNCTIONS =====
+    function showQA() {
+      showPage('page-qa');
+      updateQAList();
+    }
+
+    async function submitQuestion() {
+      const question = document.getElementById('qa-question').value.trim();
+      
+      if (!question) {
+        showToast('Mohon tulis pertanyaanmu!', 'error');
+        return;
+      }
+      
+      if (!currentStudent) {
+        showToast('Silakan login terlebih dahulu!', 'error');
+        return;
+      }
+      
+      if (window.dataSdk) {
+        if (allData.filter(d => d.type === 'qa').length >= 500) {
+          showToast('Batas pertanyaan tercapai!', 'error');
+          return;
+        }
+        
+        const result = await window.dataSdk.create({
+          type: 'qa',
+          student_name: currentStudent.name,
+          student_class: currentStudent.class,
+          question: question,
+          answer: '',
+          timestamp: new Date().toISOString(),
+          answered: false,
+          quiz_score_easy: 0,
+          quiz_score_medium: 0,
+          quiz_score_hard: 0,
+          total_score: 0,
+          reflection: ''
+        });
+        
+        if (result.isOk) {
+          document.getElementById('qa-question').value = '';
+          showToast('Pertanyaan berhasil dikirim! 📤', 'success');
+        } else {
+          showToast('Gagal mengirim pertanyaan', 'error');
+        }
+      }
+    }
+
+    function updateQAList() {
+      const questions = allData
+        .filter(d => d.type === 'qa')
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      const list = document.getElementById('qa-list');
+      const empty = document.getElementById('qa-empty');
+      
+      if (questions.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      
+      empty.classList.add('hidden');
+      list.innerHTML = questions.map(q => `
+        <div class="glass-card rounded-xl p-4 ${q.answered ? 'border border-green-500/50' : 'border border-yellow-500/50'}">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-sm text-cyan-400">${q.student_name} (${q.student_class})</span>
+            <span class="text-xs text-gray-500">${new Date(q.timestamp).toLocaleDateString('id-ID')}</span>
+          </div>
+          <p class="text-white mb-2">❓ ${q.question}</p>
+          ${q.answered && q.answer ? `
+            <div class="bg-green-500/10 rounded-lg p-3 mt-2">
+              <p class="text-sm text-green-400 font-semibold">💬 Jawaban Guru:</p>
+              <p class="text-gray-200">${q.answer}</p>
+            </div>
+          ` : `
+            <p class="text-sm text-yellow-400 italic">⏳ Menunggu jawaban guru...</p>
+          `}
+        </div>
+      `).join('');
+    }
+
+    // ===== TEACHER FUNCTIONS =====
+    function showTeacherLogin() {
+      document.getElementById('teacher-login-modal').classList.remove('hidden');
+      document.getElementById('teacher-password').value = '';
+      document.getElementById('teacher-login-error').classList.add('hidden');
+    }
+
+    function hideTeacherLogin() {
+      document.getElementById('teacher-login-modal').classList.add('hidden');
+    }
+
+    function verifyTeacherLogin() {
+      const password = document.getElementById('teacher-password').value;
+      
+      if (password === 'Gurupai2024#') {
+        isTeacherLoggedIn = true;
+        hideTeacherLogin();
+        showPage('page-teacher');
+        updateTeacherPanel();
+        showToast('Selamat datang, Pak/Bu Guru! 👨‍🏫', 'success');
+      } else {
+        document.getElementById('teacher-login-error').textContent = 'Kode akses salah!';
+        document.getElementById('teacher-login-error').classList.remove('hidden');
+      }
+    }
+
+    function logoutTeacher() {
+      isTeacherLoggedIn = false;
+      showPage('page-welcome');
+    }
+
+    function updateTeacherPanel() {
+      // Student List
+      const students = allData.filter(d => d.type === 'student');
+      const studentList = document.getElementById('student-list');
+      const studentEmpty = document.getElementById('student-empty');
+      
+      if (students.length === 0) {
+        studentList.innerHTML = '';
+        studentEmpty.classList.remove('hidden');
+      } else {
+        studentEmpty.classList.add('hidden');
+        studentList.innerHTML = students.map(s => `
+          <div class="glass-card rounded-lg p-3 flex justify-between items-center">
+            <div>
+              <p class="font-semibold text-white">${s.student_name}</p>
+              <p class="text-xs text-gray-400">${s.student_class}</p>
+            </div>
+            <button onclick="deleteStudent('${s.__backendId}')" class="text-red-400 hover:text-red-300 px-3 py-1 rounded hover:bg-red-500/20 transition">
+              🗑️
+            </button>
+          </div>
+        `).join('');
+      }
+      
+      // Quiz Results
+      const quizResults = allData
+        .filter(d => d.type === 'student' && d.total_score > 0)
+        .sort((a, b) => b.total_score - a.total_score);
+      
+      const quizList = document.getElementById('quiz-results-list');
+      const quizEmpty = document.getElementById('quiz-results-empty');
+      
+      if (quizResults.length === 0) {
+        quizList.innerHTML = '';
+        quizEmpty.classList.remove('hidden');
+      } else {
+        quizEmpty.classList.add('hidden');
+        quizList.innerHTML = quizResults.map(s => `
+          <div class="glass-card rounded-lg p-3">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-semibold text-white">${s.student_name} (${s.student_class})</span>
+              <span class="font-orbitron text-neon-gold font-bold">${s.total_score}</span>
+            </div>
+            <div class="flex gap-2 text-xs">
+              <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">Mudah: ${s.quiz_score_easy || 0}</span>
+              <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">Menengah: ${s.quiz_score_medium || 0}</span>
+              <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded">Sulit: ${s.quiz_score_hard || 0}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      // QA List for Teacher
+      const questions = allData.filter(d => d.type === 'qa').sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      const qaList = document.getElementById('teacher-qa-list');
+      const qaEmpty = document.getElementById('teacher-qa-empty');
+      
+      if (questions.length === 0) {
+        qaList.innerHTML = '';
+        qaEmpty.classList.remove('hidden');
+      } else {
+        qaEmpty.classList.add('hidden');
+        qaList.innerHTML = questions.map(q => `
+          <div class="glass-card rounded-xl p-4 ${q.answered ? 'border border-green-500/30' : 'border border-yellow-500/30'}">
+            <div class="flex justify-between items-start mb-2">
+              <span class="text-sm text-cyan-400">${q.student_name} (${q.student_class})</span>
+              <span class="text-xs text-gray-500">${new Date(q.timestamp).toLocaleDateString('id-ID')}</span>
+            </div>
+            <p class="text-white mb-3">❓ ${q.question}</p>
+            ${q.answered && q.answer ? `
+              <div class="bg-green-500/10 rounded-lg p-3 mb-3">
+                <p class="text-sm text-green-400">💬 Jawaban: ${q.answer}</p>
+              </div>
+              <button onclick="editAnswer('${q.__backendId}')" class="text-sm text-cyan-400 hover:text-cyan-300">✏️ Edit Jawaban</button>
+            ` : `
+              <div class="flex gap-2">
+                <input type="text" id="answer-${q.__backendId}" placeholder="Tulis jawaban..." class="flex-1 px-3 py-2 rounded-lg text-sm">
+                <button onclick="submitAnswer('${q.__backendId}')" class="btn-cyber px-4 py-2 rounded-lg text-sm font-bold text-gray-900">
+                  📤 Kirim
+                </button>
+              </div>
+            `}
+          </div>
+        `).join('');
+      }
+    }
+
+    async function submitAnswer(qaId) {
+      const input = document.getElementById(`answer-${qaId}`);
+      const answer = input.value.trim();
+      
+      if (!answer) {
+        showToast('Mohon tulis jawaban!', 'error');
+        return;
+      }
+      
+      const qa = allData.find(d => d.__backendId === qaId);
+      if (qa && window.dataSdk) {
+        await window.dataSdk.update({ ...qa, answer, answered: true });
+        showToast('Jawaban berhasil dikirim! ✅', 'success');
+      }
+    }
+
+    function editAnswer(qaId) {
+      const qa = allData.find(d => d.__backendId === qaId);
+      if (!qa) return;
+      
+      showPopup(`
+        <h3 class="font-bold text-xl text-cyan-300 mb-4">✏️ Edit Jawaban</h3>
+        <p class="text-gray-300 mb-4">❓ ${qa.question}</p>
+        <textarea id="edit-answer-${qaId}" rows="4" class="w-full rounded-xl p-4 mb-4">${qa.answer}</textarea>
+        <button onclick="saveEditedAnswer('${qaId}')" class="btn-cyber w-full py-3 rounded-xl font-bold text-gray-900">
+          💾 Simpan Perubahan
+        </button>
+      `);
+    }
+
+    async function saveEditedAnswer(qaId) {
+      const textarea = document.getElementById(`edit-answer-${qaId}`);
+      const answer = textarea.value.trim();
+      
+      if (!answer) {
+        showToast('Mohon tulis jawaban!', 'error');
+        return;
+      }
+      
+      const qa = allData.find(d => d.__backendId === qaId);
+      if (qa && window.dataSdk) {
+        await window.dataSdk.update({ ...qa, answer });
+        closePopup();
+        showToast('Jawaban berhasil diupdate! ✅', 'success');
+      }
+    }
+
+    function deleteStudent(studentId) {
+      showConfirm('Hapus data siswa ini?', async () => {
+        const student = allData.find(d => d.__backendId === studentId);
+        if (student && window.dataSdk) {
+          await window.dataSdk.delete(student);
+          showToast('Data siswa berhasil dihapus!', 'success');
+        }
+      });
+    }
+
+    function resetAllStudents() {
+      showConfirm('Hapus SEMUA data siswa? Tindakan ini tidak dapat dibatalkan!', async () => {
+        const students = allData.filter(d => d.type === 'student');
+        if (window.dataSdk) {
+          for (const student of students) {
+            await window.dataSdk.delete(student);
+          }
+          showToast('Semua data siswa berhasil direset!', 'success');
+        }
+      });
+    }
+
+    // ===== CONFIRM MODAL =====
+    function showConfirm(message, callback) {
+      document.getElementById('confirm-content').innerHTML = `
+        <div class="text-4xl mb-4">⚠️</div>
+        <p class="text-white">${message}</p>
+      `;
+      confirmCallback = callback;
+      document.getElementById('confirm-modal').classList.remove('hidden');
+    }
+
+    function cancelConfirm() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+      confirmCallback = null;
+    }
+
+    document.getElementById('confirm-btn').addEventListener('click', async () => {
+      if (confirmCallback) {
+        await confirmCallback();
+      }
+      cancelConfirm();
+    });
+
+    // ===== POPUP FUNCTIONS =====
+    function showPopup(content) {
+      document.getElementById('popup-content').innerHTML = content;
+      document.getElementById('popup-modal').classList.remove('hidden');
+    }
+
+    function closePopup() {
+      document.getElementById('popup-modal').classList.add('hidden');
+    }
+
+    // ===== TOAST FUNCTION =====
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl z-50 animate-bounce-in ${
+        type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-cyan-500'
+      } text-white font-semibold shadow-lg`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s';
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    // ===== CELEBRATION EFFECTS =====
+    function createCelebration() {
+      createConfetti(50);
+      createMoney(20);
+      createStars(15);
+    }
+
+    function createStars(count) {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'particle star';
+        star.textContent = '⭐';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 0.5}s`;
+        container.appendChild(star);
+        setTimeout(() => star.remove(), 1500);
+      }
+    }
+
+    function createConfetti(count) {
+      const container = document.getElementById('particles');
+      const colors = ['#ff006e', '#8338ec', '#3a86ff', '#06ffa5', '#ffd700', '#ff00ff'];
+      
+      for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'particle confetti';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = '-20px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        container.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+
+    function createMoney(count) {
+      const container = document.getElementById('particles');
+      const moneyEmojis = ['💰', '💵', '💎', '🪙'];
+      
+      for (let i = 0; i < count; i++) {
+        const money = document.createElement('div');
+        money.className = 'particle money';
+        money.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+        money.style.left = `${Math.random() * 100}%`;
+        money.style.top = '-30px';
+        money.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(money);
+        setTimeout(() => money.remove(), 4000);
+      }
+    }
+
+    // ===== SOUND EFFECTS =====
+    function playSound(type) {
+      // Sound would be played here if audio was supported
+      // For now, we'll use visual feedback instead
+      if (type === 'correct') {
+        document.body.style.animation = 'none';
+        setTimeout(() => document.body.style.animation = '', 10);
+      }
+    }
+
+    // Initialize app
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9de8332f501b820b',t:'MTc3Mzg3ODQ1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
