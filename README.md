@@ -1,0 +1,1 @@
+# MPI-Ketika-Bumi-Berhenti-Berputar
